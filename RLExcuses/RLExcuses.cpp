@@ -2,45 +2,22 @@
 #include "RLExcuses.h"
 
 
-BAKKESMOD_PLUGIN(RLExcuses, "This plugin will automatically post to chat the real reason for your loss, in the unlikely event that you're defeated. Probably by lag.", plugin_version, PLUGINTYPE_FREEPLAY)
-
-std::shared_ptr<CVarManagerWrapper> _globalCvarManager;
+BAKKESMOD_PLUGIN(RLExcuses, "RLExcuses plugin", plugin_version, PLUGINTYPE_FREEPLAY)
 
 void RLExcuses::onLoad()
 {
-	_globalCvarManager = cvarManager;
-	//cvarManager->log("Plugin loaded!");
 
-	//cvarManager->registerNotifier("my_aweseome_notifier", [&](std::vector<std::string> args) {
-	//	cvarManager->log("Hello notifier!");
-	//}, "", 0);
+	const std::string defaultExcusesFilePath = "";
 
-	//auto cvar = cvarManager->registerCvar("template_cvar", "hello-cvar", "just a example of a cvar");
-	//auto cvar2 = cvarManager->registerCvar("template_cvar2", "0", "just a example of a cvar with more settings", true, true, -10, true, 10 );
-
-	//cvar.addOnValueChanged([this](std::string cvarName, CVarWrapper newCvar) {
-	//	cvarManager->log("the cvar with name: " + cvarName + " changed");
-	//	cvarManager->log("the new value is:" + newCvar.getStringValue());
-	//});
-
-	//cvar2.addOnValueChanged(std::bind(&RLExcuses::YourPluginMethod, this, _1, _2));
-
-	// enabled decleared in the header
-	//enabled = std::make_shared<bool>(false);
-	//cvarManager->registerCvar("TEMPLATE_Enabled", "0", "Enable the TEMPLATE plugin", true, true, 0, true, 1).bindTo(enabled);
-
-	//cvarManager->registerNotifier("NOTIFIER", [this](std::vector<std::string> params){FUNCTION();}, "DESCRIPTION", PERMISSION_ALL);
-	//cvarManager->registerCvar("CVAR", "DEFAULTVALUE", "DESCRIPTION", true, true, MINVAL, true, MAXVAL);//.bindTo(CVARVARIABLE);
-	//gameWrapper->HookEvent("FUNCTIONNAME", std::bind(&TEMPLATE::FUNCTION, this));
-	//gameWrapper->HookEventWithCallerPost<ActorWrapper>("FUNCTIONNAME", std::bind(&RLExcuses::FUNCTION, this, _1, _2, _3));
-	//gameWrapper->RegisterDrawable(bind(&TEMPLATE::Render, this, std::placeholders::_1));
-
-
-	//gameWrapper->HookEvent("Function TAGame.Ball_TA.Explode", [this](std::string eventName) {
-	//	cvarManager->log("Your hook got called and the ball went POOF");
-	//});
-	// You could also use std::bind here
-	//gameWrapper->HookEvent("Function TAGame.Ball_TA.Explode", std::bind(&RLExcuses::YourPluginMethod, this);
+	cvarManager->registerCvar("RLExcuses.isEnabled", "1", "Enable RL Excuses plugin",true, true, 0, true, 1);
+	cvarManager->registerCvar("RLExcuses.excusesFilePath", defaultExcusesFilePath, "RL Excuses file path")
+		.addOnValueChanged([this](std::string oldValue, CVarWrapper cvar) {
+		// TODO : Reload excuses
+		});;
+	cvarManager->registerCvar("RLExcuses.isOnGoalEnabled", "1", "Enable excuses when you concede a goal", true, true, 0, true, 1);
+	cvarManager->registerCvar("RLExcuses.isOnOwnGoalEnabled", "1", "Enable excuses when you score a own goal ", true, true, 0, true, 1);
+	cvarManager->registerCvar("RLExcuses.isOnLostEnabled", "1", "Enable excuses when you lost the match", true, true, 0, true, 1);
+	cvarManager->registerCvar("RLExcuses.isExplainForAssholeEnabled", "1", "Sometimes assholes don't get it and get triggered, enable it to explain when the match ends what's going and that's just for fun", true, true, 0, true, 1);
 }
 
 void RLExcuses::onUnload()

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "RLExcuses.h"
 
-/* Plugin Settings Window code here
+/* Plugin Settings Window code here*/
 std::string RLExcuses::GetPluginName() {
 	return "RLExcuses";
 }
@@ -10,6 +10,7 @@ void RLExcuses::SetImGuiContext(uintptr_t ctx) {
 	ImGui::SetCurrentContext(reinterpret_cast<ImGuiContext*>(ctx));
 }
 
+/*
 // Render the plugin settings here
 // This will show up in bakkesmod when the plugin is loaded at
 //  f2 -> plugins -> RLExcuses
